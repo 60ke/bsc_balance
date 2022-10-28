@@ -25,7 +25,7 @@ var (
 
 func init() {
 	flag.IntVar(&interval, "i", 120, "blockheight unincrease time second: default: 120")
-	flag.BoolVar(&test, "i", false, "restart docker,just for test: default: false")
+	flag.BoolVar(&test, "t", false, "restart docker,just for test: default: false")
 	flag.StringVar(&name, "name", "trust-bsc", "restart docker name,default: trust-bsc")
 	flag.StringVar(&logPath, "path", "./restart_bsc.log", "log path,default: ./restart_bsc.log")
 	flag.StringVar(&url, "url", "http://127.0.0.1:8545", "bsc rpc url,default: http://127.0.0.1:8545")
