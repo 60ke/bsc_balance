@@ -33,12 +33,12 @@ func init() {
 
 func main() {
 	flag.Parse()
+	InitLog("info", logPath)
+	Logger.Infof("version: %s", version)
 	if test {
 		RestartBsc(name)
 		return
 	}
-	InitLog("info", logPath)
-	Infof("version: %s", version)
 	MonitorBlockIncrease(url, name, interval)
 }
 
@@ -58,7 +58,7 @@ func MonitorBlockIncrease(url, name string, interval int) {
 				oldH = newH
 			}
 		} else {
-			Warn(fmt.Sprintf("get height err: %s", err.Error()))
+			Logger.Warn(fmt.Sprintf("get height err: %s", err.Error()))
 		}
 		time.Sleep(time.Duration(interval) * time.Second)
 	}
@@ -77,7 +77,7 @@ func GetChainHeight(url string) (int64, error) {
 
 	b, err := post(url, payload)
 	if err != nil {
-		Error(err.Error())
+		Logger.Error(err.Error())
 		return 0, err
 	}
 	err = json.Unmarshal(b, &res)
@@ -120,17 +120,17 @@ func post(url string, payload *strings.Reader) ([]byte, error) {
 }
 
 func RestartBsc(name string) {
-	Info("RestartBsc!")
+	Logger.Info("RestartBsc!")
 	out, err := exe("docker", "restart", name)
 	if err != nil {
-		Warn(err.Error())
+		Logger.Warn(err.Error())
 	}
-	Infof("RestartBsc Result: %s", out)
+	Logger.Infof("RestartBsc Result: %s", out)
 
 }
 
 func exe(name string, arg ...string) ([]byte, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, name, arg...)
 	var outb, errb bytes.Buffer
