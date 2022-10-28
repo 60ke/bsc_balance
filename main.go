@@ -45,7 +45,7 @@ func MonitorBlockIncrease(url, name string, interval int) {
 	var oldH int64
 	for {
 		newH, err := GetChainHeight(url)
-		if err != nil {
+		if err == nil {
 			if !(newH > oldH) {
 				RestartBsc(name)
 			} else {
