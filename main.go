@@ -19,6 +19,7 @@ var (
 	interval int
 	url      string
 	name     string
+	version  string
 )
 
 func init() {
@@ -31,6 +32,7 @@ func init() {
 func main() {
 	flag.Parse()
 	InitLog("info", logPath)
+	Infof("version: %s", version)
 	MonitorBlockIncrease(url, name, interval)
 }
 
